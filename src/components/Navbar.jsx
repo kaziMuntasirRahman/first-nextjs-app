@@ -1,5 +1,6 @@
 "use client"
 
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -55,6 +56,8 @@ const dashboardLinks = [
 
 const Navbar = () => {
   const pathName = usePathname()
+  const session = useSession()
+  console.log(session)
 
   if (pathName.includes('dashboard')) {
     return (
@@ -93,9 +96,22 @@ const Navbar = () => {
           </Link>
         ))}
       </section>
-      <Link href='/login' className='ml-auto btn'>
-        Login
-      </Link>
+      {
+        session.data ?
+        <div className='ml-auto'>
+          <p className='btn btn-primary'>{session.data.user.email}</p>
+          <button onClick={()=>signOut()} className="btn btn-error text-white">Log Out</button>
+        </div>
+          :
+          <div className='ml-auto flex items-center'>
+          <Link href='/api/auth/signup' className='btn btn-info'>
+            Sign Up
+          </Link>
+          <Link href='/api/auth/signin' className='btn btn-secondary'>
+            Sign In
+          </Link>
+          </div>
+      }
     </nav>
   );
 };

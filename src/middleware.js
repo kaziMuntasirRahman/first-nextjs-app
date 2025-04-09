@@ -1,9 +1,16 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server'
 
-export function middleware (request = NextRequest) {
-  return NextResponse.redirect(new URL('/blogs', request.url))
+export const middleware = async  (request)=> {
+  const token =  cookies(request).get('next-auth.session-token')
+  console.log('The token is:',token || null);
+
+  if(!token){
+    return NextResponse.redirect(new URL('/api/auth/signin', request.url))
+  }
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: '/services'
+  matcher: ['/services', '/dashboard']
 }

@@ -14,19 +14,19 @@ const Meals = () => {
       const data = await response.json()
       console.log(data)
       if (Array.isArray(data.meals)) {
-        console.log("inside if block....", searchKey)
+        // console.log("inside if block....", searchKey)
         setMeals(data.meals);
         setError('')
       } else {
         setError(response.meals)
         setMeals([])
-        console.log("inside else block....", searchKey)
+        // console.log("inside else block....", searchKey)
       }
     } catch (err) {
       // console.log(err.meals)
       // setError(err.meals)
       // setMeals([])
-      console.log('catch block.........', searchKey)
+      // console.log('catch block.........', searchKey)
     } finally {
       //
     }
